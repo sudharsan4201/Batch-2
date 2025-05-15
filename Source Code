@@ -1,0 +1,53 @@
+import pandas as pd
+import random
+
+# Load names from uploaded file
+name_df = pd.read_csv("my.csv")  # This assumes the file is in the same directory
+name_list = name_df["Name"].tolist()
+
+# Sample data pools
+emotions = ["Joy", "Sadness", "Anger", "Surprise", "Neutral", "Love", "Frustration", "Excitement", "Fear", "Disgust"]
+sentiments = {
+    "Joy": "Positive", "Love": "Positive", "Excitement": "Positive", "Surprise": "Positive",
+    "Sadness": "Negative", "Anger": "Negative", "Frustration": "Negative", "Fear": "Negative", "Disgust": "Negative",
+    "Neutral": "Neutral"
+}
+platforms = ["Instagram", "Twitter", "Facebook", "YouTube", "Reddit"]
+sample_texts = {
+    "Joy": ["Feeling amazing today!", "Such a beautiful day!", "Everything is going right! 🎉"],
+    "Sadness": ["I feel empty.", "Nothing makes sense anymore.", "Crying myself to sleep."],
+    "Anger": ["I'm furious!", "This is unacceptable!", "Why can't people just be decent?"],
+    "Surprise": ["Wow! Didn't expect that!", "What a twist!", "Shocking news just dropped!"],
+    "Neutral": ["Just a regular day.", "Nothing new to report.", "Meh."],
+    "Love": ["Feeling so loved ❤", "Grateful for my friends and family.", "So much love in the air."],
+    "Frustration": ["I'm tired of this.", "Why is this happening again?", "Same old problems."],
+    "Excitement": ["Can't wait for tomorrow!", "Best day ever!", "I'm thrilled!"],
+    "Fear": ["I'm scared.", "I don't feel safe.", "Something's not right."],
+    "Disgust": ["That was gross.", "I can't believe people do that.", "Disgusting behavior!"]
+}
+
+# Generate 80 posts using names from the file
+posts = []
+for i in range(80):
+    name = name_list[i % len(name_list)]
+    emotion = random.choice(emotions)
+    sentiment = sentiments[emotion]
+    post_text = random.choice(sample_texts[emotion])
+    platform = random.choice(platforms)
+    posts.append({
+        "Post_ID": i + 1,
+        "Name": name,
+        "Platform": platform,
+        "Post_Text": post_text,
+        "Emotion": emotion,
+        "Sentiment": sentiment
+    })
+
+# Create DataFrame
+df = pd.DataFrame(posts)
+
+# Save the final dataset to a CSV
+df.to_csv("SocialMedia_Emotion_Sentiment_80_Frommy.csv", index=False)
+
+# Show the first few rows of the dataset
+df.head()
